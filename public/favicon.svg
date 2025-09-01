@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="#0A2342"/>
+  <!-- SoundCloud-inspired cloud -->
+  <ellipse cx="38" cy="44" rx="18" ry="10" fill="#00BFA6"/>
+  <ellipse cx="24" cy="46" rx="7" ry="5" fill="#00BFA6"/>
+  <ellipse cx="32" cy="40" rx="12" ry="8" fill="#00BFA6"/>
+  <!-- Radiating lines (like SoundCloud bars) -->
+  <g stroke="#FF6B35" stroke-width="2" stroke-linecap="round">
+    <line x1="14" y1="54" x2="14" y2="38"/>
+    <line x1="18" y1="54" x2="18" y2="42"/>
+    <line x1="22" y1="54" x2="22" y2="44"/>
+    <line x1="26" y1="54" x2="26" y2="46"/>
+  </g>
+  <!-- Stylized E for Enginuity -->
+  <text x="38" y="50" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold" fill="#fff">E</text>
+</svg>

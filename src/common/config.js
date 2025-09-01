@@ -1,0 +1,1 @@
+export const BASE_SERVER_API = 'http://3.131.110.14'
