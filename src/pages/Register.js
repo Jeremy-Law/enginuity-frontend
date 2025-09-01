@@ -3,6 +3,7 @@ import styled from 'styled-components';
 // import { registerUser } from '../services/api';
 import { colors } from '../theme';
 import { useNavigate } from 'react-router-dom';
+import UserService from '../services/UserService.tsx';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -55,18 +56,28 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const userService = UserService;
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
-  setError('Registration is not available.');
-  setLoading(false);
+    setLoading(true);
+    try {
+      const newUser = await userService.registerUser({
+        name: "Bob",
+        email: "bob@example.com",
+        password: "supersecret123"
+      });
+      console.log("Registered user:", newUser);
+      navigate('/dashboard');
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
   };
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleRegister}>
         <Title>Register</Title>
         <Input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} required />
         <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />

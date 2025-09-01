@@ -25,42 +25,12 @@ class UserService extends APIService {
     return response.data;
     }
 
+  async registerUser(user: { name: string; email: string; password: string }): Promise<User> {
+    const response: AxiosResponse<{ message: string; user: User }> = await this.post("/users/registerUser", user);
+    console.log(response.data);
+    return response.data.user;
+}
 
-  /**
-   * Fetch a single user by ID
-   * @param id - The user’s ID
-   */
-  async getUserById(id: number): Promise<User> {
-    const response: AxiosResponse<User> = await this.get<User>(`/users/${id}`);
-    return response.data;
-  }
-
-  /**
-   * Create a new user
-   * @param user - Object with `name` and `email`
-   */
-  async createUser(user: { name: string; email: string }): Promise<User> {
-    const response: AxiosResponse<User> = await this.post<User>("/users", user);
-    return response.data;
-  }
-
-  /**
-   * Update an existing user
-   * @param id - The user’s ID
-   * @param user - Partial fields to update
-   */
-  async updateUser(id: number, user: Partial<User>): Promise<User> {
-    const response: AxiosResponse<User> = await this.put<User>(`/users/${id}`, user);
-    return response.data;
-  }
-
-  /**
-   * Delete a user by ID
-   * @param id - The user’s ID
-   */
-  async deleteUser(id: number): Promise<void> {
-    await this.delete(`/users/${id}`);
-  }
 }
 
 export default new UserService();
