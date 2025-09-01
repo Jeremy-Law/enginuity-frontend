@@ -16,7 +16,7 @@
 	```sh
 	npm install
 	```
-3. Create a `.env` file (see `.env.example` for required variables).
+3. Create a `.env` file
 4. Start the development server:
 	```sh
 	npm start
@@ -41,3 +41,5 @@
 
 ---
 For backend/API setup, see the `../backend/README.md` file.
+
+# enginuity-frontend
