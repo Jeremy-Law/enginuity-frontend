@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import { colors } from '../theme';
-import { getUsers } from '../services/api';
+import UserService from '../services/UserService.tsx';
 
 const Layout = styled.div`
   display: flex;

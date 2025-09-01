@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFiles } from '../services/files/filesService';
+import { getFiles } from '../services/FilesService.tsx';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';

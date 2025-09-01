@@ -1,6 +1,6 @@
 // src/services/UserService.ts
 import { AxiosResponse } from "axios";
-import APIService from "./APIService";
+import APIService from "./APIService.tsx";
 
 // Define the shape of your User data
 export interface User {
