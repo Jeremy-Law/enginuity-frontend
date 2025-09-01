@@ -26,13 +26,15 @@ export default function Settings() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const userService = UserService;
 
   useEffect(() => {
     (async () => {
       try {
-        const data = await getUsers();
-        setUsers(data.data);
+        const data = await userService.getUsers();
+        setUsers(data);
       } catch (err) {
+        console.log(err);
         setError('Failed to load users');
       } finally {
         setLoading(false);

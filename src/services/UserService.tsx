@@ -18,9 +18,13 @@ class UserService extends APIService {
    * Fetch all users from the backend
    */
   async getUsers(): Promise<User[]> {
-    const response: AxiosResponse<User[]> = await this.get<User[]>("/users");
+    const url = this.buildURL("users"); // full URL with base + endpoint
+    console.log("Fetching from API:", url); // 👈 log the URL being called
+
+    const response: AxiosResponse<User[]> = await this.get<User[]>(url);
     return response.data;
-  }
+    }
+
 
   /**
    * Fetch a single user by ID

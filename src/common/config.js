@@ -1,1 +1,1 @@
-export const BASE_SERVER_API = 'http://3.131.110.14'
+export const BASE_SERVER_API = 'http://3.144.173.117:3000'

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFiles } from '../services/FilesService.tsx';
+import FileService from '../services/FilesService.tsx';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
@@ -26,11 +26,13 @@ export default function Files() {
   const [loading, setLoading] = useState(true);
   const [fileList, setFileList] = useState([]);
   const [error, setError] = useState(null);
+  const fileService = FileService;
 
   useEffect(() => {
     (async () => {
       try {
-        const files = await getFiles();
+        const files = await fileService.getAllFileNames();
+        console.log(files);
         setFileList(files);
       } catch {
         setError("Failed to load files.");
