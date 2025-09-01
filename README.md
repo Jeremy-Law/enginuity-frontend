@@ -16,23 +16,17 @@
 	```sh
 	npm install
 	```
-3. Create a `.env` file (see `.env.example` for required variables).
+3. Get IPv4 address from AWS and replace address in /src/common/config.js
 4. Start the development server:
 	```sh
 	npm start
 	```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Troubleshooting
-- If you see a blank page or "Invalid hook call" error:
-  - Delete `node_modules` and `package-lock.json`, then run `npm install` again.
-  - Ensure only one version of `react`, `react-dom`, and `styled-components` is installed.
-- If you change dependencies, always restart the dev server.
-
 ## Project Structure
 - `src/pages/` — Main pages (Login, Register, Dashboard, Project)
 - `src/components/` — Sidebar, Topbar, and shared UI
-- `src/services/api.js` — Stubbed API functions (replace with real backend calls later)
+- `src/services` — API functions containing 
 - `src/theme.js` — Enginuity color palette
 
 ## Customization
