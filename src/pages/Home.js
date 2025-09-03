@@ -4,138 +4,42 @@ import { colors } from '../theme';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   background: ${colors.lightGray};
-  margin: 0;
-  padding: 0;
+  overflow-x: hidden; /* Prevents side-to-side scrolling */
 `;
 
-const Header = styled.div`
+/* ---------- HEADER ---------- */
+const Header = styled.header`
   width: 100%;
   display: flex;
-  flex-direction: row; 
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   background: ${colors.teal};
-  margin: 0;
+  padding: 0.75rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-sizing: border-box;
 `;
 
-
-const Title = styled.h1`
-  color: ${colors.primary};
-  font-size: 40px;
-  margin: 0;
-  padding: 0 1rem;
-`;
-const Text = styled.p`
-  color: ${colors.steel};
-  font-size: 1.2rem;
-  font-weight: bold;
-  max-width: 600px;
-  padding: 0 1rem;
+const Logo = styled.img`
+  height: 50px;
+  width: auto;
 `;
 
-
-
-export default function Home() {
-  const navigate = useNavigate();
-  const user = React.useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem('user'));
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const images = ['Civil', 'Mechanical', 'City', 'Aero'];
-  const [current, setCurrent] = React.useState(0);
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  return (
-    <Container>
-      <Header>
-        <div>
-          <Title>Enginuity Cloud</Title>
-          <Text>
-            Powering the future of engineering collaboration.
-          </Text>
-          <Text>
-            Collaborate. Innovate. Engineer.
-          </Text>
-        </div>
-        {/*
-        <VideoWrapper>
-          <video width="100%" height="auto" autoPlay loop muted playsInline style={{ maxWidth: 800 }}>
-            <source src="/Engineering.mp4" type="video/mp4" />
-            <source src="/Engineering.mov" type="video/quicktime" />
-            Your browser does not support the video tag.
-          </video>
-        </VideoWrapper>
-        */}
-        <SlideshowWrapper>
-          <SlideshowImage src={`/${images[current]}.png`} alt={images[current]} />
-        </SlideshowWrapper>
-      </Header>
-      <Text>
-        Enginuity Cloud is a modern platform for managing engineering projects, files, and collaboration.<br />
-        Sign in to access your dashboard, upload files, and manage your projects.
-      </Text>
-      <div style={{ marginTop: 32, display: 'flex', gap: 16 }}>
-        <Button onClick={() => navigate('/login')}>Login</Button>
-        <Button onClick={() => navigate('/register')}>Register</Button>
-        <Button onClick={() => navigate('/dashboard')} disabled={!user} title={!user ? 'Sign in to access dashboard' : ''}>
-          Dashboard
-        </Button>
-      </div>
-    </Container>
-  );
-}
-
-
-// const VideoWrapper = styled.div`
-//   display: flex;
-//   align-items: flex-end;
-//   justify-content: center;
-//   max-width: 800px;
-//   flex: 1;
-//   video {
-//     display: block;
-//     width: 100%;
-//     height: auto;
-//   }
-// `;
-
-const SlideshowWrapper = styled.div`
+const NavButtons = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 800px;
-  height: 450px;
-  background: #fff;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-  margin-left: 2rem;
-`;
-
-const SlideshowImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  gap: 1rem;
+  flex-wrap: wrap; /* Stops overflow on small screens */
 `;
 
 const Button = styled.button`
   background: ${colors.primary};
   color: #fff;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.25rem;
   border-radius: 4px;
   font-weight: bold;
   font-size: 1rem;
@@ -149,3 +53,298 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 `;
+
+/* ---------- HERO ---------- */
+const HeroSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(
+    to bottom,
+    ${colors.teal} 0%,
+    ${colors.lightGray} 100%
+  );
+  color: white;
+  box-sizing: border-box;
+`;
+
+const HeroTitle = styled.h1`
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 1rem;
+  color: ${colors.primary};
+`;
+
+const HeroSubtitle = styled.p`
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  max-width: 800px;
+  margin-bottom: 2rem;
+  color: ${colors.primary};
+`;
+
+const CTAButton = styled(Button)`
+  font-size: 1.25rem;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+`;
+
+/* ---------- FEATURES GRID ---------- */
+const FeaturesSection = styled.section`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 4rem 2rem;
+  background: white;
+  box-sizing: border-box;
+`;
+
+const FeatureCard = styled.div`
+  background: ${colors.lightGray};
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+`;
+
+const FeatureTitle = styled.h3`
+  margin-bottom: 0.75rem;
+  color: ${colors.primary};
+`;
+
+const FeatureText = styled.p`
+  color: ${colors.steel};
+  font-size: 1rem;
+`;
+
+/* ---------- DEEP DIVE ---------- */
+const DeepDiveSection = styled.section`
+  display: flex;
+  flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: ${({ bg }) => bg || 'transparent'};
+  gap: 2rem;
+  flex-wrap: wrap; /* Makes sure content stacks nicely */
+  box-sizing: border-box;
+`;
+
+const DeepDiveText = styled.div`
+  flex: 1;
+  min-width: 280px;
+  max-width: 600px;
+`;
+
+const DeepDiveTitle = styled.h2`
+  color: ${colors.primary};
+  margin-bottom: 1rem;
+`;
+
+const DeepDiveDescription = styled.p`
+  color: ${colors.steel};
+  font-size: 1.1rem;
+`;
+
+const DeepDiveImage = styled.img`
+  flex: 1;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+/* ---------- CONTACT ---------- */
+const ContactSection = styled.section`
+  padding: 4rem 2rem;
+  text-align: center;
+  background: ${colors.teal};
+  color: white;
+  box-sizing: border-box;
+`;
+
+const ContactForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 2rem auto 0;
+`;
+
+const Input = styled.input`
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const TextArea = styled.textarea`
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: none;
+  min-height: 120px;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const SubmitButton = styled(Button)`
+  background: white;
+  color: ${colors.primary};
+  &:hover {
+    background: ${colors.lightGray};
+  }
+`;
+
+/* ---------- FOOTER ---------- */
+const Footer = styled.footer`
+  margin-top: auto;
+  background: ${colors.teal};
+  color: white;
+  text-align: center;
+  padding: 1rem;
+`;
+
+export default function Home() {
+  const navigate = useNavigate();
+  const user = React.useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch {
+      return null;
+    }
+  }, []);
+
+  return (
+    <Container>
+      {/* HEADER */}
+      <Header>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Logo src="/logo.png" alt="Enginuity Cloud Logo" />
+          <h2 style={{ color: `${colors.primary}`, margin: 0 }}>Enginuity Cloud</h2>
+        </div>
+        <NavButtons>
+          <Button onClick={() => navigate('/login')}>Login</Button>
+          <Button onClick={() => navigate('/register')}>Register</Button>
+          <Button
+            onClick={() => navigate('/dashboard')}
+            disabled={!user}
+            title={!user ? 'Sign in to access dashboard' : ''}
+          >
+            Dashboard
+          </Button>
+        </NavButtons>
+      </Header>
+
+      {/* HERO */}
+      <HeroSection>
+        <HeroTitle>Collaborate. Innovate. Engineer.</HeroTitle>
+        <HeroSubtitle>
+          A modern platform for managing engineering projects, files, and
+          collaboration — built to capture and preserve your organization’s
+          knowledge.
+        </HeroSubtitle>
+        <CTAButton onClick={() => navigate('/register')}>Get Started</CTAButton>
+      </HeroSection>
+
+      {/* FEATURES */}
+      <FeaturesSection>
+        <FeatureCard>
+          <FeatureTitle>Upload & Tag Files</FeatureTitle>
+          <FeatureText>
+            Securely store and annotate engineering documents like CAD, DWG, and PDFs.
+          </FeatureText>
+        </FeatureCard>
+        <FeatureCard>
+          <FeatureTitle>Collaborative Notes</FeatureTitle>
+          <FeatureText>
+            Capture design knowledge directly from your engineers before it’s lost.
+          </FeatureText>
+        </FeatureCard>
+        <FeatureCard>
+          <FeatureTitle>Centralized Projects</FeatureTitle>
+          <FeatureText>
+            One platform to manage your projects, teams, and workflows.
+          </FeatureText>
+        </FeatureCard>
+        <FeatureCard>
+          <FeatureTitle>Secure & Scalable</FeatureTitle>
+          <FeatureText>
+            Enterprise-grade security built for engineering organizations.
+          </FeatureText>
+        </FeatureCard>
+      </FeaturesSection>
+
+      {/* DEEP DIVES */}
+      <DeepDiveSection>
+        <DeepDiveText>
+          <DeepDiveTitle>Upload & Tag Files</DeepDiveTitle>
+          <DeepDiveDescription>
+            Upload CAD drawings, PDFs, and other engineering files. Tag specific
+            areas to capture critical design intent so future engineers understand
+            the “why” behind every decision.
+          </DeepDiveDescription>
+        </DeepDiveText>
+        <DeepDiveImage src="/Civil.png" alt="Upload demo" />
+      </DeepDiveSection>
+
+      <DeepDiveSection reverse bg={colors.lightGray}>
+        <DeepDiveText>
+          <DeepDiveTitle>Collaboration Tools</DeepDiveTitle>
+          <DeepDiveDescription>
+            Engineers can leave comments, notes, and markups on designs directly
+            inside Enginuity Cloud — ensuring that no tribal knowledge is lost.
+          </DeepDiveDescription>
+        </DeepDiveText>
+        <DeepDiveImage src="/Mechanical.png" alt="Collaboration demo" />
+      </DeepDiveSection>
+
+      <DeepDiveSection>
+        <DeepDiveText>
+          <DeepDiveTitle>Centralized Dashboard</DeepDiveTitle>
+          <DeepDiveDescription>
+            Manage projects, assign tasks, and access files in one place. A
+            centralized workspace reduces wasted time and miscommunication.
+          </DeepDiveDescription>
+        </DeepDiveText>
+        <DeepDiveImage src="/City.png" alt="Dashboard demo" />
+      </DeepDiveSection>
+
+      <DeepDiveSection reverse bg={colors.lightGray}>
+        <DeepDiveText>
+          <DeepDiveTitle>Enterprise Security</DeepDiveTitle>
+          <DeepDiveDescription>
+            With robust access controls, encryption, and compliance-ready design,
+            Enginuity Cloud ensures your organization’s intellectual property is
+            safe and future-proof.
+          </DeepDiveDescription>
+        </DeepDiveText>
+        <DeepDiveImage src="/Aero.png" alt="Security demo" />
+      </DeepDiveSection>
+
+      {/* CONTACT */}
+      <ContactSection>
+        <h2>Get in Touch</h2>
+        <p>
+          Want a demo or have questions? Fill out the form below and we’ll get back to you.
+        </p>
+        <ContactForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            alert('Form submitted! (You can hook this to an API)');
+          }}
+        >
+          <Input type="text" placeholder="Your Name" required />
+          <Input type="email" placeholder="Your Email" required />
+          <TextArea placeholder="Your Message" required />
+          <SubmitButton type="submit">Send Message</SubmitButton>
+        </ContactForm>
+      </ContactSection>
+
+      {/* FOOTER */}
+      <Footer>
+        © {new Date().getFullYear()} Enginuity Cloud. All rights reserved.
+      </Footer>
+    </Container>
+  );
+}
