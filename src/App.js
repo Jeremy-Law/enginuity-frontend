@@ -6,10 +6,19 @@ import { colors } from './theme';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  body {
+  html, body {
     background: ${colors.lightGray};
     margin: 0;
     font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
   }
 `;
 

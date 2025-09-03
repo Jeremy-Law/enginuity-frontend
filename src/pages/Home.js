@@ -7,8 +7,17 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background: ${colors.lightGray};
-  overflow-x: hidden; /* Prevents side-to-side scrolling */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
 `;
+
+
 
 /* ---------- HEADER ---------- */
 const Header = styled.header`
