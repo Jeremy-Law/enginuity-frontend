@@ -9,12 +9,6 @@ const Container = styled.div`
   background: ${colors.lightGray};
   overflow-x: hidden;
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-  
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
-  }
 `;
 
 
@@ -289,9 +283,9 @@ export default function Home() {
         <DeepDiveText>
           <DeepDiveTitle>Upload & Tag Files</DeepDiveTitle>
           <DeepDiveDescription>
-            Upload CAD drawings, PDFs, and other engineering files. Tag specific
-            areas to capture critical design intent so future engineers understand
-            the “why” behind every decision.
+            Upload CAD drawings, PDFs, and other engineering files. Click anywhere on a file 
+            to leave a question which will be stored for those who come after, streamlining the flow
+            of knowledge.
           </DeepDiveDescription>
         </DeepDiveText>
         <DeepDiveImage src="/Civil.png" alt="Upload demo" />
@@ -299,10 +293,10 @@ export default function Home() {
 
       <DeepDiveSection reverse bg={colors.lightGray}>
         <DeepDiveText>
-          <DeepDiveTitle>Collaboration Tools</DeepDiveTitle>
+          <DeepDiveTitle>Others</DeepDiveTitle>
           <DeepDiveDescription>
             Engineers can leave comments, notes, and markups on designs directly
-            inside Enginuity Cloud — ensuring that no tribal knowledge is lost.
+            inside Enginuity Cloud - ensuring that no tribal knowledge is lost.
           </DeepDiveDescription>
         </DeepDiveText>
         <DeepDiveImage src="/Mechanical.png" alt="Collaboration demo" />
@@ -312,8 +306,8 @@ export default function Home() {
         <DeepDiveText>
           <DeepDiveTitle>Centralized Dashboard</DeepDiveTitle>
           <DeepDiveDescription>
-            Manage projects, assign tasks, and access files in one place. A
-            centralized workspace reduces wasted time and miscommunication.
+            Manage projects, permissions, view activity, and more all from 
+            our central dashboard. Designd with management and engineers in mind.
           </DeepDiveDescription>
         </DeepDiveText>
         <DeepDiveImage src="/City.png" alt="Dashboard demo" />
@@ -324,8 +318,8 @@ export default function Home() {
           <DeepDiveTitle>Enterprise Security</DeepDiveTitle>
           <DeepDiveDescription>
             With robust access controls, encryption, and compliance-ready design,
-            Enginuity Cloud ensures your organization’s intellectual property is
-            safe and future-proof.
+            Enginuity Cloud ensures your organization's intellectual property is
+            safe. <br/>NIST SP 800-171, DFARS 252.204-7012, CMMC, ITAR compliant.
           </DeepDiveDescription>
         </DeepDiveText>
         <DeepDiveImage src="/Aero.png" alt="Security demo" />
@@ -335,7 +329,7 @@ export default function Home() {
       <ContactSection>
         <h2>Get in Touch</h2>
         <p>
-          Want a demo or have questions? Fill out the form below and we’ll get back to you.
+          Want a demo or have questions? Fill out the form below and we'll get back to you.
         </p>
         <ContactForm
           onSubmit={(e) => {
