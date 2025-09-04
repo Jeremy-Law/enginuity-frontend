@@ -1,8 +1,6 @@
-// src/services/UserService.ts
 import { AxiosResponse } from "axios";
 import APIService from "./APIService.tsx";
 
-// Define the shape of your User data
 export interface User {
   id: number;
   name: string;
@@ -11,26 +9,27 @@ export interface User {
 
 class UserService extends APIService {
   constructor() {
-    super(); // calls the APIService constructor
+    super();
   }
 
-  /**
-   * Fetch all users from the backend
-   */
   async getUsers(): Promise<User[]> {
-    const url = this.buildURL("users"); // full URL with base + endpoint
-    console.log("Fetching from API:", url); // 👈 log the URL being called
-
-    const response: AxiosResponse<User[]> = await this.get<User[]>(url);
+    const response: AxiosResponse<User[]> = await this.get("/users");
     return response.data;
-    }
+  }
 
-  async registerUser(user: { name: string; email: string; password: string }): Promise<User> {
-    const response: AxiosResponse<{ message: string; user: User }> = await this.post("/users/registerUser", user);
-    console.log(response.data);
-    return response.data.user;
-}
+  async getUserById(id: number): Promise<User> {
+    const response: AxiosResponse<User> = await this.get(`/users/${id}`);
+    return response.data;
+  }
 
+  async updateUser(id: number, user: Partial<User>): Promise<User> {
+    const response: AxiosResponse<User> = await this.put(`/users/${id}`, user);
+    return response.data;
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    await this.delete(`/users/${id}`);
+  }
 }
 
 export default new UserService();

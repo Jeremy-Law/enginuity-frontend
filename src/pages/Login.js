@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { loginUser } from '../services/api';
+import AuthService from '../services/AuthService.tsx';
 import { colors } from '../theme';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,17 +58,17 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    // Instantly log in with a mock user object
-    const mockUser = {
-      email: email || 'demo@example.com',
-      name: 'Demo User',
-      role: 'Engineer',
-    };
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      const user = await AuthService.loginUser({ email, password });
+      localStorage.setItem('user', JSON.stringify(user));
       navigate('/dashboard');
-    }, 500);
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

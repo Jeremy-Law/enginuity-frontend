@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { registerUser } from '../services/api';
 import { colors } from '../theme';
 import { useNavigate } from 'react-router-dom';
-import UserService from '../services/UserService.tsx';
+import AuthService from '../services/AuthService.tsx';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -56,22 +55,25 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const userService = UserService;
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
+    setError('');
+
     try {
-      const newUser = await userService.registerUser({
-        name: "Bob",
-        email: "bob@example.com",
-        password: "supersecret123"
+      const newUser = await AuthService.registerUser({
+        name,
+        email,
+        password,
       });
-      console.log("Registered user:", newUser);
+      localStorage.setItem('user', JSON.stringify(newUser));
       navigate('/dashboard');
     } catch (err) {
       console.error("Registration failed:", err);
+      setError("Could not register user");
+    } finally {
+      setLoading(false);
     }
   };
 
