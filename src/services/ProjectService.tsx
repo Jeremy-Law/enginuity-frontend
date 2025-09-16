@@ -29,7 +29,7 @@ class ProjectService extends APIService {
     return response.data;
   }
 
-  async addUserToProject( projectId: string; users: string[] ): Promise<Project> {
+  async addUserToProject( projectId: string, users: string[] ): Promise<Project> {
     const response: AxiosResponse<Project> = await this.post("/projects/addUserToProject", {id: projectId, users, });
     return response.data;
   }
