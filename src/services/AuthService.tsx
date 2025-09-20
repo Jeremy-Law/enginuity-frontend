@@ -9,7 +9,7 @@ class AuthService extends APIService {
 
   async loginUser(credentials: { email: string; password: string }): Promise<User> {
     const response: AxiosResponse<{ message: string; user: User }> = await this.post(
-      "/users/login",
+      "/auth/login",
       credentials
     );
     return response.data.user;
@@ -17,7 +17,7 @@ class AuthService extends APIService {
 
   async registerUser(data: { name: string; email: string; password: string }): Promise<User> {
     const response: AxiosResponse<{ message: string; user: User }> = await this.post(
-      "/users/registerUser",
+      "/users",
       data
     );
     return response.data.user;
