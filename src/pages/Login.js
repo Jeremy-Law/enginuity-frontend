@@ -22,6 +22,12 @@ const Title = styled.h2`
   color: ${colors.primary};
   margin-bottom: 1.5rem;
 `;
+const Name = styled.div`
+  color: ${colors.primary};
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`
 const Input = styled.input`
   width: 100%;
   padding: 0.75rem;
@@ -74,6 +80,7 @@ export default function Login() {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
+        <Name>Enginuity Cloud</Name>
         <Title>Login</Title>
         <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
         <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
