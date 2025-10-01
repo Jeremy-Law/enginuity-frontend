@@ -108,32 +108,65 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')));
+    try {
+      const stored = localStorage.getItem('user');
+      setUser(stored ? JSON.parse(stored) : null);
+    } catch {
+      setUser(null);
+    }
     fetchProjects();
   }, []);
 
   const fetchProjects = async () => {
     try {
       const data = await ProjectService.getAllProjects();
-      setProjects(data);
+      setProjects(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch projects:", err);
     }
   };
 
   const handleCreateProject = async () => {
+    if (!newProjectName.trim()) {
+      alert("Project name is required");
+      return;
+    }
+    if (!user) {
+      alert("You must be logged in to create a project.");
+      return;
+    }
+
+    // Choose a stable identifier for created_by
+    const createdBy =
+      user.id || user._id || user.uid || user.email;
+
+    if (!createdBy) {
+      alert("Cannot determine the current user ID/email for created_by.");
+      return;
+    }
+
     try {
       setLoading(true);
-      const newProject = await ProjectService.createProject({
+      const resp = await ProjectService.createProject({
         name: newProjectName,
         description: newProjectDesc,
+        created_by: createdBy, // <-- send creator
       });
-      setProjects(prev => [...prev, newProject]);
+
+      // Handle either { project: {...} } or plain project object
+      const createdProject = resp?.project ?? resp;
+
+      if (!createdProject?.id) {
+        console.warn("CreateProject response unexpected:", resp);
+      }
+
+      setProjects(prev => [...prev, createdProject]);
       setShowModal(false);
       setNewProjectName("");
       setNewProjectDesc("");
     } catch (err) {
       console.error("Failed to create project:", err);
+      alert("Failed to create project");
     } finally {
       setLoading(false);
     }
@@ -157,8 +190,8 @@ export default function Dashboard() {
 
           {projects.length > 0 ? (
             projects.map(p => (
-              <ProjectCard 
-                key={p.id} 
+              <ProjectCard
+                key={p.id}
                 onClick={() => navigate(`/project/${p.id}`)}
               >
                 <h3>{p.name}</h3>
@@ -168,7 +201,6 @@ export default function Dashboard() {
           ) : (
             <div style={{ color: colors.steel }}>No projects yet.</div>
           )}
-
         </Content>
       </Main>
 

@@ -6,6 +6,130 @@ import UserService from '../services/UserService.tsx';
 import { colors } from '../theme';
 import styled from 'styled-components';
 
+
+export default function Project() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [newUserEmail, setNewUserEmail] = useState('');
+  const [adding, setAdding] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [addingEmail, setAddingEmail] = useState(null);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const projectData = await ProjectService.getProject(id);
+        setProject(projectData);
+        const userData = await UserService.getUsers();
+        setUsers(userData || []);
+      } catch (err) {
+        console.error('Failed to fetch project:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProject();
+  }, [id]);
+
+  const handleAddUser = async () => {
+    if (!newUserEmail) return;
+    try {
+      setAdding(true);
+      await ProjectService.addUserToProject(id, newUserEmail);
+      alert(`User ${newUserEmail} added to project!`);
+      setNewUserEmail('');
+    } catch (err) {
+      console.error('Failed to add user:', err);
+      alert('Error adding user');
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const TopBarUI = (
+    <Topbar>
+      <BackButton onClick={() => navigate('/dashboard')}>← Projects</BackButton>
+      <TopTitle>{project?.name || (loading ? 'Loading…' : 'Project')}</TopTitle>
+    </Topbar>
+  );
+
+  if (loading) {
+    return (
+      <>
+        {TopBarUI}
+        <Page>
+          <Main>Loading project...</Main>
+        </Page>
+      </>
+    );
+  }
+
+  if (!project) {
+    return (
+      <>
+        {TopBarUI}
+        <Page>
+          <Main>Project not found</Main>
+        </Page>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {TopBarUI}
+      <Page>
+        <Sidebar>
+          <SidebarHeader>Users</SidebarHeader>
+          <UserList>
+            {users.length === 0 && (
+              <div style={{ color: colors.steel, padding: '0.5rem 0.75rem' }}>
+                No users found.
+              </div>
+            )}
+            {users.map((u) => {
+              const name = u.name || u.fullName || u.displayName || u.email || 'User';
+              const initials = (name || '')
+                .split(' ')
+                .map((s) => s[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase();
+
+              const email = u.email;
+
+              return (
+                <UserTile key={u.id || u._id || email}>
+                  <Avatar>{initials || 'U'}</Avatar>
+                  <UserMeta>
+                    <UserName>{name}</UserName>
+                    <UserEmail>{email}</UserEmail>
+                  </UserMeta>
+                  <AddUserBtn
+                    onClick={() => handleAddUser(email)}
+                    disabled={!email || addingEmail === email}
+                    title="Add this user to the project"
+                  >
+                    {addingEmail === email ? 'Adding…' : '+ Add'}
+                  </AddUserBtn>
+                </UserTile>
+              );
+            })}
+
+          </UserList>
+        </Sidebar>
+        <Main>
+          <Title>{project.name}</Title>
+          <Subtitle>{project.description}</Subtitle>
+        </Main>
+      </Page>
+    </>
+  );
+}
+
+
 const Topbar = styled.header`
   position: sticky;
   top: 0;
@@ -178,125 +302,3 @@ const Button = styled.button`
   &:hover { background: ${colors.steel}; }
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 `;
-
-export default function Project() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [newUserEmail, setNewUserEmail] = useState('');
-  const [adding, setAdding] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [addingEmail, setAddingEmail] = useState(null);
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const projectData = await ProjectService.getProject(id);
-        setProject(projectData);
-        const userData = await UserService.getUsers();
-        setUsers(userData || []);
-      } catch (err) {
-        console.error('Failed to fetch project:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProject();
-  }, [id]);
-
-  const handleAddUser = async () => {
-    if (!newUserEmail) return;
-    try {
-      setAdding(true);
-      await ProjectService.addUserToProject(id, newUserEmail);
-      alert(`User ${newUserEmail} added to project!`);
-      setNewUserEmail('');
-    } catch (err) {
-      console.error('Failed to add user:', err);
-      alert('Error adding user');
-    } finally {
-      setAdding(false);
-    }
-  };
-
-  const TopBarUI = (
-    <Topbar>
-      <BackButton onClick={() => navigate('/projects')}>← Projects</BackButton>
-      <TopTitle>{project?.name || (loading ? 'Loading…' : 'Project')}</TopTitle>
-    </Topbar>
-  );
-
-  if (loading) {
-    return (
-      <>
-        {TopBarUI}
-        <Page>
-          <Main>Loading project...</Main>
-        </Page>
-      </>
-    );
-  }
-
-  if (!project) {
-    return (
-      <>
-        {TopBarUI}
-        <Page>
-          <Main>Project not found</Main>
-        </Page>
-      </>
-    );
-  }
-
-  return (
-    <>
-      {TopBarUI}
-      <Page>
-        <Sidebar>
-          <SidebarHeader>Users</SidebarHeader>
-          <UserList>
-            {users.length === 0 && (
-              <div style={{ color: colors.steel, padding: '0.5rem 0.75rem' }}>
-                No users found.
-              </div>
-            )}
-            {users.map((u) => {
-              const name = u.name || u.fullName || u.displayName || u.email || 'User';
-              const initials = (name || '')
-                .split(' ')
-                .map((s) => s[0])
-                .join('')
-                .slice(0, 2)
-                .toUpperCase();
-
-              const email = u.email;
-
-              return (
-                <UserTile key={u.id || u._id || email}>
-                  <Avatar>{initials || 'U'}</Avatar>
-                  <UserMeta>
-                    <UserName>{name}</UserName>
-                    <UserEmail>{email}</UserEmail>
-                  </UserMeta>
-                  <AddUserBtn
-                    onClick={() => handleAddUser(email)}
-                    disabled={!email || addingEmail === email}
-                    title="Add this user to the project"
-                  >
-                    {addingEmail === email ? 'Adding…' : '+ Add'}
-                  </AddUserBtn>
-                </UserTile>
-              );
-            })}
-
-          </UserList>
-        </Sidebar>
-        <Main>
-          <Title>{project.name}</Title>
-          <Subtitle>{project.description}</Subtitle>
-        </Main>
-      </Page>
-    </>
-  );
-}
